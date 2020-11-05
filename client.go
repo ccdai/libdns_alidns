@@ -41,7 +41,6 @@ func (p *Provider) addDNSRecord(ctx context.Context, zone string, record libdns.
 	req.RR = strings.TrimRight(strings.TrimSuffix(record.Name, zone), ".")
 	req.Type = record.Type
 	req.Value = record.Value
-	req.TTL = requests.NewInteger(int(record.TTL.Seconds()))
 
 	response, err := p.client.AddDomainRecord(req)
 	if err != nil {
@@ -77,7 +76,6 @@ func (p *Provider) updateDNSRecord(ctx context.Context, zone string, record libd
 	req.RR = strings.TrimRight(strings.TrimSuffix(record.Name, zone), ".")
 	req.Type = record.Type
 	req.Value = record.Value
-	req.TTL = requests.NewInteger(int(record.TTL.Seconds()))
 
 	_, err := p.client.UpdateDomainRecord(req)
 	if err != nil {
