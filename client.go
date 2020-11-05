@@ -37,7 +37,7 @@ func (p *Provider) addDNSRecord(ctx context.Context, zone string, record libdns.
 	req := alidns.CreateAddDomainRecordRequest()
 	req.Scheme = "https"
 
-	req.DomainName = zone
+	req.DomainName = strings.TrimRight(zone, ".")
 	req.RR = strings.TrimRight(strings.TrimSuffix(record.Name, zone), ".")
 	req.Type = record.Type
 	req.Value = record.Value
@@ -93,7 +93,7 @@ func (p *Provider) getDNSRecords(ctx context.Context, zone string) ([]libdns.Rec
 	req := alidns.CreateDescribeDomainRecordsRequest()
 	req.Scheme = "https"
 
-	req.DomainName = zone
+	req.DomainName = strings.TrimRight(zone, ".")
 	pageNumber := 1
 
 	for {
