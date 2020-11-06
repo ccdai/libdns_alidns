@@ -36,9 +36,9 @@ func (p *Provider) addDNSRecord(ctx context.Context, zone string, record libdns.
 
 	req := alidns.CreateAddDomainRecordRequest()
 	req.Scheme = "https"
-
-	req.DomainName = strings.TrimRight(zone, ".")
-	req.RR = strings.TrimRight(strings.TrimSuffix(record.Name, zone), ".")
+	domain := strings.Trim(zone, ".")
+	req.DomainName = domain
+	req.RR = strings.TrimRight(strings.TrimSuffix(record.Name, req.DomainName), ".")
 	req.Type = record.Type
 	req.Value = record.Value
 
@@ -73,7 +73,8 @@ func (p *Provider) updateDNSRecord(ctx context.Context, zone string, record libd
 
 	req := alidns.CreateUpdateDomainRecordRequest()
 	req.RecordId = record.ID
-	req.RR = strings.TrimRight(strings.TrimSuffix(record.Name, zone), ".")
+	domain := strings.Trim(zone, ".")
+	req.RR = strings.TrimRight(strings.TrimSuffix(record.Name, domain), ".")
 	req.Type = record.Type
 	req.Value = record.Value
 
